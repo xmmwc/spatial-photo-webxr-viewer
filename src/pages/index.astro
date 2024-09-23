@@ -1,10 +1,31 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Viewer from "../components/Viewer.jsx";
+import GitHubIcon from "../components/icons/GitHubIcon";
 ---
 
 <Layout title="Apple Spatial Photo WebXR Viewer">
 	<main class="min-h-screen h-full w-full">
 		<Viewer client:only="react" />
 	</main>
+	<header
+		class="fixed top-0 left-0 flex px-3 py-2 gap-4 text-white bg-neutral-900/50 rounded-br-md"
+	>
+		<a href="https://zachfox.photography" class="group" target="_blank">
+			<img
+				class="w-7 h-7 opacity-75 group-hover:scale-110 group-hover:opacity-100 group-active:scale-100 transition-transform duration-75"
+				src="/logo-orange-on-white-2023-08-29.svg"
+				alt="The Zach Fox Photography logo."
+			/>
+		</a>
+		<a
+			href="https://github.com/zfox23/spatial-photo-webxr-viewer/"
+			class="group"
+			target="_blank"
+		>
+			<GitHubIcon
+				className="w-7 h-7 opacity-75 group-hover:scale-110 group-hover:opacity-100 group-active:scale-100 transition-transform duration-75"
+			/>
+		</a>
+	</header>
 </Layout>

@@ -186,6 +186,7 @@ export default function ImmersiveImageMesh({ imageSrc }) {
                 layers={1}>
                 <boxGeometry args={[SCALED_WIDTH_M, SCALED_HEIGHT_M, MESH_DEPTH_M]} />
                 <meshStandardMaterial
+                    side={THREE.FrontSide}
                     map={immersiveImageTextureL}
                 />
             </mesh>
@@ -194,6 +195,7 @@ export default function ImmersiveImageMesh({ imageSrc }) {
                 layers={2}>
                 <boxGeometry args={[SCALED_WIDTH_M, SCALED_HEIGHT_M, MESH_DEPTH_M]} />
                 <meshStandardMaterial
+                    side={THREE.FrontSide}
                     map={immersiveImageTextureR}
                 />
             </mesh>
