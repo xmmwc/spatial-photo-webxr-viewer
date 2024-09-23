@@ -7,6 +7,8 @@ import tailwind from '@astrojs/tailwind';
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://zfox23.github.io',
+  base: 'spatial-photo-webxr-viewer',
   integrations: [react(), tailwind()],
   vite: {
     server: {
