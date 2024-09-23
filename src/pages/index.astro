@@ -1,0 +1,10 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Viewer from "../components/Viewer.jsx";
+---
+
+<Layout title="Apple Spatial Photo WebXR Viewer">
+	<main class="min-h-screen h-full w-full">
+		<Viewer client:only="react" />
+	</main>
+</Layout>

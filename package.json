@@ -1,0 +1,30 @@
+{
+  "name": "spatial-photo-webxr-viewer",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.3",
+    "@astrojs/react": "^3.6.2",
+    "@astrojs/tailwind": "^5.1.1",
+    "@react-three/drei": "^9.113.0",
+    "@react-three/fiber": "^8.17.7",
+    "@react-three/xr": "^6.2.8",
+    "@types/react": "^18.3.8",
+    "@types/react-dom": "^18.3.0",
+    "@types/three": "^0.168.0",
+    "astro": "^4.15.8",
+    "heic2any": "github:zfox23/heic2any#master",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwindcss": "^3.4.12",
+    "three": "^0.168.0",
+    "typescript": "^5.6.2"
+  }
+}
