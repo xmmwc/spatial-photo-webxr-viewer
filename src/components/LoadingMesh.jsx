@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { useTexture } from "@react-three/drei";
 
 export default function LoadingMesh() {
-    const [immersiveLoadingTexture] = useTexture(['/ImmersiveLoading.jpg'], ([tex]) => {
+    const [immersiveLoadingTexture] = useTexture([`${import.meta.env.BASE_URL}/ImmersiveLoading.jpg`], ([tex]) => {
         tex.repeat.set(2, 1);
         tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
     });
