@@ -1,6 +1,6 @@
 # Apple Spatial Photo WebXR Viewer
 
-[**Try it here.**](https://zachfox.github.io/spatial-photo-webxr-viewer) Spatial photos are processed locally and never leave your device.
+[**Try it here.**](https://zfox23.github.io/spatial-photo-webxr-viewer) Spatial photos are processed locally and never leave your device.
 
 With the launch of the iPhone 16 Pro, more phones than ever before are now capable of capturing 3D photographs. Apple calls these "Spatial Photos".
 
