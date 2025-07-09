@@ -1,16 +1,12 @@
 import { useThree } from "@react-three/fiber";
 import heic2any from "heic2any";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as THREE from 'three';
 import LoadingMesh from "./LoadingMesh";
 import NoImageMesh from "./NoImageMesh";
 
-const MESH_POSITION_Z_M = -2;
 const MESH_DEPTH_M = 0.01;
 const MAX_HEIGHT_M = 2;
-const SPATIAL_PHOTO_ASPECT_RATIO = 4 / 3;
-const SCALED_WIDTH_M = SPATIAL_PHOTO_ASPECT_RATIO * MAX_HEIGHT_M;
-const SCALED_HEIGHT_M = 1 / SPATIAL_PHOTO_ASPECT_RATIO * SCALED_WIDTH_M;
 const loader = new THREE.TextureLoader();
 
 export default function ImmersiveImageMesh({ imageSrc }) {
@@ -19,6 +15,10 @@ export default function ImmersiveImageMesh({ imageSrc }) {
     const [immersiveImageTextureL, setImmersiveImageTextureL] = useState(null);
     const [immersiveImageTextureR, setImmersiveImageTextureR] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [scaledWidthM, setScaledWidthM] = useState(0.0);
+    const [scaledHeightM, setScaledHeightM] = useState(0.0);
+    // const isDraggingRef = useRef(false);
+    // const meshRef = useRef(null);
 
     useEffect(() => {
         if (!imageSrc) return;
@@ -55,15 +55,18 @@ export default function ImmersiveImageMesh({ imageSrc }) {
             })
             .then((pngs) => {
                 if (!pngs) return;
-                console.log(`Loading PNG images into new \`img\` objects...`);
 
                 if (pngs.length === 1) {
                     throw `Input image only contains one layer. Are you sure it's a Spatial Photo?`;
                 }
 
-                // Apple Spatial Photos contain three layers. Layer 1 can be discarded.
-                // Layer 2 is the right eye image. Layer 3 is the left eye image.
-                pngs.shift();
+                console.log(`Loading ${pngs.length} PNG images into new \`img\` objects...`);
+
+                if (pngs.length === 3) {
+                    // Apple Spatial Photos captured by iPhone contain three layers. Layer 1 can be discarded.
+                    // Layer 2 is the right eye image. Layer 3 is the left eye image.
+                    pngs.shift();
+                }
 
                 const loadImages = (blobs) => {
                     const imgPromises = blobs.map(blob => {
@@ -89,9 +92,17 @@ export default function ImmersiveImageMesh({ imageSrc }) {
 
                 console.log(`Drawing PNG \`img\` objects onto a 3D SBS canvas...`);
                 const [img1, img2] = imgs;
+                console.log(`---- \`img1\` dimensions: ${img1.width}*${img1.height}px`);
+                console.log(`---- \`img2\` dimensions: ${img1.width}*${img1.height}px`);
 
                 const minWidth = Math.min(img1.width, img2.width);
                 const minHeight = Math.min(img1.height, img2.height);
+
+                const aspectRatio = minWidth / minHeight;
+                const w = aspectRatio * MAX_HEIGHT_M;
+                const h = 1 / aspectRatio * w;
+                setScaledWidthM(w);
+                setScaledHeightM(h);
 
                 // Create an offscreen canvas
                 const offscreenCanvas = document.createElement('canvas');
@@ -174,17 +185,31 @@ export default function ImmersiveImageMesh({ imageSrc }) {
     if (!imageSrc) {
         return <NoImageMesh />
     }
-    
+
     if (isLoading) {
         return <LoadingMesh />;
     }
 
     return (
-        <group
-            position={[0, 0, MESH_POSITION_Z_M]}>
+        <mesh
+        // I don't like how hand controllers interact with this mesh yet.
+        // ref={meshRef}
+        // onPointerDown={(e) => {
+        //     if (isDraggingRef.current || !meshRef.current) return;
+        //     isDraggingRef.current = true;
+        //     meshRef.current.position.copy(e.point);
+        // }}
+        // onPointerMove={(e) => {
+        //     if (!(isDraggingRef.current && meshRef.current)) return;
+        //     meshRef.current.position.copy(e.point);
+        // }}
+        // onPointerUp={(e) => {
+        //     isDraggingRef.current = false;
+        // }}
+        >
             <mesh
                 layers={1}>
-                <boxGeometry args={[SCALED_WIDTH_M, SCALED_HEIGHT_M, MESH_DEPTH_M]} />
+                <boxGeometry args={[scaledWidthM, scaledHeightM, MESH_DEPTH_M]} />
                 <meshStandardMaterial
                     side={THREE.FrontSide}
                     map={immersiveImageTextureL}
@@ -193,12 +218,12 @@ export default function ImmersiveImageMesh({ imageSrc }) {
 
             <mesh
                 layers={2}>
-                <boxGeometry args={[SCALED_WIDTH_M, SCALED_HEIGHT_M, MESH_DEPTH_M]} />
+                <boxGeometry args={[scaledWidthM, scaledHeightM, MESH_DEPTH_M]} />
                 <meshStandardMaterial
                     side={THREE.FrontSide}
                     map={immersiveImageTextureR}
                 />
             </mesh>
-        </group>
+        </mesh>
     )
 }
