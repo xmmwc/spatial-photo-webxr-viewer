@@ -208,7 +208,7 @@ export default function ImmersiveImageMesh({ imageSrc }) {
         // }}
         >
             <mesh
-                layers={1}>
+                layers={2}>
                 <boxGeometry args={[scaledWidthM, scaledHeightM, MESH_DEPTH_M]} />
                 <meshStandardMaterial
                     side={THREE.FrontSide}
@@ -217,7 +217,7 @@ export default function ImmersiveImageMesh({ imageSrc }) {
             </mesh>
 
             <mesh
-                layers={2}>
+                layers={1}>
                 <boxGeometry args={[scaledWidthM, scaledHeightM, MESH_DEPTH_M]} />
                 <meshStandardMaterial
                     side={THREE.FrontSide}
